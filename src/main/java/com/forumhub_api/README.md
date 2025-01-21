@@ -120,14 +120,16 @@ mvn spring-boot:run
       "titulo": "Primeiro Tópico",
       "mensagem": "Mensagem inicial do tópico",
       "autor": "João",
-      "curso": "Java Básico"
+      "curso": "Java Básico",
+      "dataCriacao": "2025-01-21T15:25:40.290286"
     },
     {
       "id": 2,
       "titulo": "Segundo Tópico",
       "mensagem": "Discussão sobre Spring Boot",
       "autor": "Maria",
-      "curso": "Spring Framework"
+      "curso": "Spring Framework",
+      "dataCriacao": "2025-01-21T15:25:40.290286"
     }
   ]
   ```
@@ -153,7 +155,7 @@ mvn spring-boot:run
     "autor": "Autor do tópico",
     "curso": "Curso relacionado",
     "dataCriacao": "2025-01-21T10:30:00Z",
-    "status" : "PENDENTE"
+    "status": "NAO_RESPONDIDO"
   }
   ```
 
@@ -170,7 +172,8 @@ mvn spring-boot:run
     "autor": "João",
     "curso": "Java Básico",
     "dataCriacao": "2025-01-20T14:00:00Z",
-    "status" : "PENDENTE"
+    "resposta": "{}",
+    "status": "NAO_RESPONDIDO"
   }
   ```
 
@@ -192,7 +195,8 @@ mvn spring-boot:run
     "mensagem": "Mensagem atualizada",
     "autor": "João",
     "curso": "Java Básico",
-    "dataCriacao": "2025-01-20T14:00:00Z"
+    "dataCriacao": "2025-01-20T14:00:00Z",
+    "status": "NAO_RESPONDIDO"
   }
   ```
 
@@ -203,6 +207,29 @@ mvn spring-boot:run
   **Resposta de exemplo (204 No Content):**  
   Nenhum conteúdo retornado.
 
+#### **6. Responder a um tópico**
+- **POST /api/topicos/{id}/respostas**  
+  Adiciona uma nova resposta a um tópico específico. 
+  **Requer:** Token JWT válido no cabeçalho e corpo JSON com os dados da resposta:
+  ```json
+  {
+  "resposta": "Conteúdo da resposta"
+  }
+
+  ```
+  **Resposta de exemplo (200 OK):**
+  ```json
+  {
+    "id": 1,
+    "titulo": "Título atualizado",
+    "mensagem": "Mensagem atualizada",
+    "autor": "João",
+    "curso": "Java Básico",
+    "dataCriacao": "2025-01-20T14:00:00Z",
+    "resposta": "resposta",
+    "status": "RESPONDIDO"
+  }
+  ```
 
 ## 🔐 Segurança
 
