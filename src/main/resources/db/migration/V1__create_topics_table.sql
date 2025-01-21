@@ -5,5 +5,6 @@ CREATE TABLE topico (
     autor VARCHAR(255) NOT NULL,
     curso VARCHAR(255) NOT NULL,
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) NOT NULL
+    resposta TEXT,
+    status VARCHAR(50) DEFAULT 'PENDENTE' NOT NULL
 );

@@ -6,8 +6,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.forumhub_api.service.TopicoService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/topicos")
@@ -18,12 +20,20 @@ public class TopicoController {
 
     @PostMapping
     public ResponseEntity<Topico> criarTopico(@Valid @RequestBody Topico topico) {
+        topico.setStatus("PENDENTE"); // Define o status padrão
         return ResponseEntity.ok(service.criarTopico(topico));
     }
 
     @GetMapping
     public ResponseEntity<List<Topico>> listarTodos() {
-        return ResponseEntity.ok(service.listarTodosOrdenados());
+        // Exclui os campos resposta e status
+        List<Topico> topicos = service.listarTodosOrdenados().stream()
+                .peek(topico -> {
+                    topico.setResposta(null);
+                    topico.setStatus(null);
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(topicos);
     }
 
     @GetMapping("/{id}")

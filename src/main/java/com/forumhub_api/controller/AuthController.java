@@ -1,6 +1,7 @@
 package com.forumhub_api.controller;
 
 import com.forumhub_api.dto.LoginRequest;
+import com.forumhub_api.exception.AuthException;
 import com.forumhub_api.service.TokenService;
 import com.forumhub_api.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -37,7 +38,8 @@ public class AuthController {
             String token = tokenService.gerarToken(user.getUsername());
             return Map.of("token", token, "tipo", "Bearer");
         } catch (AuthenticationException e) {
-            throw new RuntimeException("Erro de autenticação: " + e.getMessage());
+            throw new AuthException("Erro de autenticação: " + e.getMessage());
         }
     }
+
 }

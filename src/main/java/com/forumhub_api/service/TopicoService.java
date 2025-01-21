@@ -1,10 +1,10 @@
 package com.forumhub_api.service;
 
+import com.forumhub_api.exception.ResourceNotFoundException;
+import com.forumhub_api.exception.ValidationException;
 import com.forumhub_api.model.Topico;
 import com.forumhub_api.repository.TopicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,8 @@ public class TopicoService {
     }
 
     public Optional<Topico> buscarPorId(Long id) {
-        return repository.findById(id);
+        return Optional.ofNullable(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Tópico não encontrado!")));
     }
 
     public void excluirTopico(Long id) {
@@ -37,15 +38,19 @@ public class TopicoService {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
-
     public Topico atualizarTopico(Long id, Topico dadosAtualizados) {
         return repository.findById(id)
                 .map(topico -> {
                     topico.setTitulo(dadosAtualizados.getTitulo());
-                    topico.setMensagem(dadosAtualizados.getMensagem());
-                    topico.setAutor(dadosAtualizados.getAutor());
                     topico.setCurso(dadosAtualizados.getCurso());
-                    topico.setStatus(dadosAtualizados.getStatus());
+                    topico.setAutor(dadosAtualizados.getAutor());
+
+                    // Verifica se há mensagem nova (resposta)
+                    if (dadosAtualizados.getMensagem() != null && !dadosAtualizados.getMensagem().isBlank()) {
+                        topico.setResposta(dadosAtualizados.getMensagem());
+                        topico.setStatus("RESPONDIDO");
+                    }
+
                     return repository.save(topico);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Tópico não encontrado!"));
@@ -54,7 +59,7 @@ public class TopicoService {
     private void validarDuplicidade(Topico topico) {
         boolean existe = repository.existsByTituloAndMensagem(topico.getTitulo(), topico.getMensagem());
         if (existe) {
-            throw new IllegalArgumentException("Já existe um tópico com este título e mensagem!");
+            throw new ValidationException("Já existe um tópico com este título e mensagem!");
         }
     }
 }
