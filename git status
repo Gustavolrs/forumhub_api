@@ -1,0 +1,11 @@
+[33mcommit b8ca85d1fafa14554ae0be98f307c34d10d9e66b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Gustavo Lima Ramos Souza <gustavolrsc@gmail.com>
+Date:   Tue Jan 21 09:33:20 2025 -0300
+
+    Adicionando exceptions e aprimorando requreando quisições
+
+[33mcommit ffcd5e34e55370b43498002351a1e6f0480d69c6[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Gustavo Lima Ramos Souza <gustavolrsc@gmail.com>
+Date:   Sun Jan 19 16:23:50 2025 -0300
+
+    projeto forumhub_api
