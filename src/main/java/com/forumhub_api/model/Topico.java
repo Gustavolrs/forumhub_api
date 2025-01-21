@@ -37,5 +37,5 @@ public class Topico {
     private String resposta;
 
     @Column(nullable = false)
-    private String status = "PENDENTE";
+    private String status = "NAO_RESPONDIDO";
 }

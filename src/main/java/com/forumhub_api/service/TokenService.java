@@ -3,11 +3,11 @@ package com.forumhub_api.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Service
+@Component
 public class TokenService {
 
     private final String secret;

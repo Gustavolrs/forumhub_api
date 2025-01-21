@@ -41,16 +41,28 @@ public class TopicoService {
     public Topico atualizarTopico(Long id, Topico dadosAtualizados) {
         return repository.findById(id)
                 .map(topico -> {
-                    topico.setTitulo(dadosAtualizados.getTitulo());
-                    topico.setCurso(dadosAtualizados.getCurso());
-                    topico.setAutor(dadosAtualizados.getAutor());
-
-                    // Verifica se há mensagem nova (resposta)
-                    if (dadosAtualizados.getMensagem() != null && !dadosAtualizados.getMensagem().isBlank()) {
-                        topico.setResposta(dadosAtualizados.getMensagem());
-                        topico.setStatus("RESPONDIDO");
+                    if (dadosAtualizados.getTitulo() != null) {
+                        topico.setTitulo(dadosAtualizados.getTitulo());
                     }
+                    if (dadosAtualizados.getCurso() != null) {
+                        topico.setCurso(dadosAtualizados.getCurso());
+                    }
+                    if (dadosAtualizados.getAutor() != null) {
+                        topico.setAutor(dadosAtualizados.getAutor());
+                    }
+                    if (dadosAtualizados.getMensagem() != null) {
+                        topico.setMensagem(dadosAtualizados.getMensagem());
+                    }
+                    return repository.save(topico);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Tópico não encontrado!"));
+    }
 
+    public Topico respostaTopico(Long id, String resposta) {
+        return repository.findById(id)
+                .map(topico -> {
+                    topico.setResposta(resposta);
+                    topico.setStatus("RESPONDIDO");
                     return repository.save(topico);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Tópico não encontrado!"));
